@@ -141,7 +141,7 @@
       <workItem from="1731133715646" duration="486000" />
       <workItem from="1731156213834" duration="11112000" />
       <workItem from="1731458243405" duration="795000" />
-      <workItem from="1731977809590" duration="14284000" />
+      <workItem from="1731977809590" duration="14656000" />
     </task>
     <task id="LOCAL-00001" summary="GIT INIT">
       <option name="closed" value="true" />
@@ -159,7 +159,23 @@
       <option name="project" value="LOCAL" />
       <updated>1731978905145</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="完成节点的CRUD基础">
+      <option name="closed" value="true" />
+      <created>1732094265648</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1732094265648</updated>
+    </task>
+    <task id="LOCAL-00004" summary="完成节点的CRUD基础">
+      <option name="closed" value="true" />
+      <created>1732094271478</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732094271478</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -190,6 +206,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="GIT INIT" />
-    <option name="LAST_COMMIT_MESSAGE" value="GIT INIT" />
+    <MESSAGE value="完成节点的CRUD基础" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成节点的CRUD基础" />
   </component>
 </project>
