@@ -13,8 +13,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -90,7 +90,7 @@
       <recent name="com.yupi.springbootinit.service" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.MainApplication">
+  <component name="RunManager">
     <configuration name="create_table.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
       <script-file value="$PROJECT_DIR$/sql/create_table.sql" />
       <script-mode>FILE</script-mode>
@@ -141,7 +141,7 @@
       <workItem from="1731133715646" duration="486000" />
       <workItem from="1731156213834" duration="11112000" />
       <workItem from="1731458243405" duration="795000" />
-      <workItem from="1731977809590" duration="1148000" />
+      <workItem from="1731977809590" duration="14284000" />
     </task>
     <task id="LOCAL-00001" summary="GIT INIT">
       <option name="closed" value="true" />

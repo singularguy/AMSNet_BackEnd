@@ -19,37 +19,36 @@ public class GraphController {
     // 添加节点
     @PostMapping("/addNode")
     public ResponseEntity<String> addNode(@RequestBody Map<String, Object> body) {
-        String label = (String) body.get("label");
+        String name = (String) body.get("name");
         Map<String, Object> properties = (Map<String, Object>) body.get("properties");
-        graphService.createNode(label, properties);
+        log.error("name: " + name);
+        log.error("properties: " + properties);
+        graphService.createNode(name, properties);
         return ResponseEntity.ok("Node added greatly");
     }
 
     // 删除节点
     @DeleteMapping("/deleteNode")
     public ResponseEntity<String> deleteNode(@RequestBody Map<String, Object> body) {
-        String label = (String) body.get("label");
-        Map<String, Object> properties = (Map<String, Object>) body.get("properties");
-        graphService.deleteNode(label, properties);
+        String name = (String) body.get("name");
+        graphService.deleteNode(name);
         return ResponseEntity.ok("Node deleted successfully");
     }
 
     // 更新节点
     @PutMapping("/updateNode")
     public ResponseEntity<String> updateNode(@RequestBody Map<String, Object> body) {
-        String label = (String) body.get("label");
-        Map<String, Object> oldProperties = (Map<String, Object>) body.get("oldProperties");
-        Map<String, Object> newProperties = (Map<String, Object>) body.get("newProperties");
-        graphService.updateNode(label, oldProperties, newProperties);
+        String label = (String) body.get("name");
+        Map<String, Object> newProperties = (Map<String, Object>) body.get("properties");
+        graphService.updateNode(label, newProperties);
         return ResponseEntity.ok("Node updated successfully");
     }
 
     // 查询节点
-    @GetMapping("/findNode")
+    @PostMapping("/findNode")
     public ResponseEntity<Map<String, Object>> findNode(@RequestBody Map<String, Object> body) {
-        String label = (String) body.get("label");
-        Map<String, Object> properties = (Map<String, Object>) body.get("properties");
-        Map<String, Object> node = graphService.findNode(label, properties);
+        String name = (String) body.get("name");
+        Map<String, Object> node = graphService.findNode(name);
         return ResponseEntity.ok(node);
     }
 }
