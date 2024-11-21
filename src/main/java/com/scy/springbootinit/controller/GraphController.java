@@ -79,7 +79,7 @@ public class GraphController {
     // 创建关系
     @PostMapping("/createRelationship")
     public ResponseEntity<String> createRelationship(@RequestBody Map<String, Object> body) {
-        String relationshipName = (String) body.get("relationshipName");
+        String name = (String) body.get("name");
         Map<String, Object> properties = (Map<String, Object>) body.get("properties");
 
         String startNodeName = (String) properties.get("startNodeName");
@@ -98,12 +98,12 @@ public class GraphController {
         }
 
         // 再查询关系是否已存在（可根据业务需求决定是否添加此步）
-        Map<String, Object> existingRelationship = graphService.findRelationship(relationshipName);
+        Map<String, Object> existingRelationship = graphService.findRelationship(name);
         if (existingRelationship!= null &&!existingRelationship.isEmpty()) {
             return ResponseEntity.badRequest().body("关系已存在，无法创建");
         }
 
-        graphService.createRelationship(relationshipName, properties);
+        graphService.createRelationship(name, properties);
 
         return ResponseEntity.ok("关系创建成功");
     }
@@ -111,44 +111,44 @@ public class GraphController {
     // 删除关系
     @DeleteMapping("/deleteRelationship")
     public ResponseEntity<String> deleteRelationship(@RequestBody Map<String, Object> body) {
-        String relationshipName = (String) body.get("relationshipName");
+        String name = (String) body.get("name");
 
         // 先查询关系是否存在
-        Map<String, Object> existingRelationship = graphService.findRelationship(relationshipName);
+        Map<String, Object> existingRelationship = graphService.findRelationship(name);
         if (existingRelationship == null || existingRelationship.isEmpty()) {
             return ResponseEntity.badRequest().body("关系不存在，无法删除");
         }
-        graphService.deleteRelationship(relationshipName);
+        graphService.deleteRelationship(name);
         return ResponseEntity.ok("关系删除成功");
     }
 
     // 更新关系
     @PutMapping("/updateRelationship")
     public ResponseEntity<String> updateRelationship(@RequestBody Map<String, Object> body) {
-        String relationshipName = (String) body.get("relationshipName");
+        String name = (String) body.get("name");
         Map<String, Object> newProperties = (Map<String, Object>) body.get("properties");
 
         // 先查询关系是否存在
-        Map<String, Object> existingRelationship = graphService.findRelationship(relationshipName);
+        Map<String, Object> existingRelationship = graphService.findRelationship(name);
         if (existingRelationship == null || existingRelationship.isEmpty()) {
             return ResponseEntity.badRequest().body("关系不存在，无法更新");
         }
-        graphService.updateRelationship(relationshipName, newProperties);
+        graphService.updateRelationship(name, newProperties);
         return ResponseEntity.ok("关系更新成功");
     }
 
     // 查询关系
     @PostMapping("/findRelationship")
     public ResponseEntity<Map<String, Object>> findRelationship(@RequestBody Map<String, Object> body) {
-        String relationshipName = (String) body.get("relationshipName");
-        Map<String, Object> relationship = graphService.findRelationship(relationshipName);
+        String name = (String) body.get("name");
+        Map<String, Object> relationship = graphService.findRelationship(name);
         if (relationship == null) {
             Map<String, Object> response = new HashMap<>();
             response.put("message", "关系不存在");
             return null;
         }
         Map<String, Object> newRelationship = new HashMap<>();
-        newRelationship.put("relationshipName", relationshipName);
+        newRelationship.put("name", name);
         newRelationship.put("properties", relationship);
         return ResponseEntity.ok(newRelationship);
     }
@@ -168,6 +168,7 @@ public class GraphController {
     @PostMapping("/getAllRelationships")
     public ResponseEntity<List<Map<String, Object>>> getAllRelationships(boolean isIncludeProperties) {
         List<Map<String, Object>> relationships = graphService.getAllRelationships(isIncludeProperties);
+        log.error("relationships: " + relationships);
         // 转换关系格式以匹配前端要求
         List<Map<String, Object>> transformedRelationships = relationships.stream()
                 .map(this::transformRelationship)
@@ -179,11 +180,9 @@ public class GraphController {
     // 由于返回的格式和前端要求的不一样 需要转换
     public Map<String, Object> transformNode(Map<String, Object> node) {
         Map<String, Object> newNode = new HashMap<>();
-
         if (node!= null &&!node.isEmpty()) {
             // 提取节点的名称作为新节点的name键的值
             newNode.put("name", node.get("name"));
-
             // 创建一个新的properties键对应的Map，用于存放除了name之外的其他属性
             Map<String, Object> properties = new HashMap<>();
             for (Map.Entry<String, Object> entry : node.entrySet()) {
@@ -193,7 +192,6 @@ public class GraphController {
             }
             newNode.put("properties", properties);
         }
-
         return newNode;
     }
 
@@ -201,14 +199,14 @@ public class GraphController {
         Map<String, Object> newRelationship = new HashMap<>();
 
         if (relationship!= null &&!relationship.isEmpty()) {
-            // 提取关系的名称作为新关系的relationshipName键的值
-            newRelationship.put("relationshipName", relationship.get("relationshipName"));
-//            log.info("relationshipName: " + relationship.get("relationshipName"));
+            // 提取关系的名称作为新关系的name键的值
+            newRelationship.put("name", relationship.get("name"));
+//            log.info("name: " + relationship.get("name"));
 
-            // 创建一个新的properties键对应的Map，用于存放除了relationshipName之外的其他属性
+            // 创建一个新的properties键对应的Map，用于存放除了name之外的其他属性
             Map<String, Object> properties = new HashMap<>();
             for (Map.Entry<String, Object> entry : relationship.entrySet()) {
-                if (!"relationshipName".equals(entry.getKey())) {
+                if (!"name".equals(entry.getKey())) {
                     properties.put(entry.getKey(), entry.getValue());
                 }
             }

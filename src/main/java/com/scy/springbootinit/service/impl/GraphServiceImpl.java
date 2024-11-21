@@ -119,9 +119,9 @@ public class GraphServiceImpl implements GraphService {
 
     // 修改后的createRelationship方法
     @Override
-    public void createRelationship(String relationshipName, Map<String, Object> properties) {
+    public void createRelationship(String name, Map<String, Object> properties) {
         // 校验
-        if (relationshipName == null || properties == null) {
+        if (name == null || properties == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
         }
 
@@ -142,7 +142,7 @@ public class GraphServiceImpl implements GraphService {
             String propertiesString = propertiesBuilder.toString().replaceFirst(", ", "");
 
             String query = "MATCH (a:AMSNet {name: $startNodeName}), (b:AMSNet {name:$endNodeName}) " +
-                    "CREATE (a)-[r:" + relationshipName + " {" + propertiesString + "}]->(b)";
+                    "CREATE (a)-[r:" + name + " {" + propertiesString + "}]->(b)";
             tx.run(query, Map.of("startNodeName", startNodeName, "endNodeName", endNodeName));
             tx.commit();
         } catch (Exception e) {
@@ -152,13 +152,13 @@ public class GraphServiceImpl implements GraphService {
 
 
     @Override
-    public void deleteRelationship(String relationshipName) {
+    public void deleteRelationship(String name) {
         // 校验
-        if (relationshipName == null) {
+        if (name == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "关系名称参数为空");
         }
         try (Session session = driver.session(); Transaction tx = session.beginTransaction()) {
-            String query = "MATCH ()-[r:" + relationshipName + "]-() DELETE r";
+            String query = "MATCH ()-[r:" + name + "]-() DELETE r";
             tx.run(query);
             tx.commit();
         } catch (Exception e) {
@@ -168,9 +168,9 @@ public class GraphServiceImpl implements GraphService {
     }
 
     @Override
-    public void updateRelationship(String relationshipName, Map<String, Object> newProperties) {
+    public void updateRelationship(String name, Map<String, Object> newProperties) {
         // 校验
-        if (relationshipName == null || newProperties == null) {
+        if (name == null || newProperties == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数为空");
         }
         try (Session session = driver.session(); Transaction tx = session.beginTransaction()) {
@@ -182,7 +182,7 @@ public class GraphServiceImpl implements GraphService {
             }
             String propertiesString = propertiesBuilder.toString().replaceFirst(", ", "");
 
-            String query = "MATCH ()-[r:" + relationshipName + "]-() SET r += {" + propertiesString + "}";
+            String query = "MATCH ()-[r:" + name + "]-() SET r += {" + propertiesString + "}";
             tx.run(query);
             tx.commit();
         } catch (Exception e) {
@@ -192,13 +192,13 @@ public class GraphServiceImpl implements GraphService {
     }
 
     @Override
-    public Map<String, Object> findRelationship(String relationshipName) {
+    public Map<String, Object> findRelationship(String name) {
         // 校验
-        if (relationshipName == null) {
+        if (name == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "关系参数为空");
         }
         try (Session session = driver.session(); Transaction tx = session.beginTransaction()) {
-            String query = "MATCH ()-[r:" + relationshipName + "]-() RETURN r LIMIT 1";
+            String query = "MATCH ()-[r:" + name + "]-() RETURN r LIMIT 1";
             Result result = tx.run(query);
             if (result.hasNext()) {
                 return result.single().get("r").asMap();
@@ -231,17 +231,15 @@ public class GraphServiceImpl implements GraphService {
     public List<Map<String, Object>> getAllRelationships(boolean isIncludeProperties) {
         try (Session session = driver.session(); Transaction tx = session.beginTransaction()) {
             // 修改后的查询语句，增加了返回关系的起始节点名称和结束节点名称
-            String query = "MATCH ()-[r]->() RETURN type(r) AS relationshipName, r.startNodeName, r.endNodeName LIMIT 10000";
+            String query = "MATCH ()-[r]->() RETURN type(r) AS name, r.startNodeName AS startNodeName, r.endNodeName AS endNodeName";
             Result result = tx.run(query);
 
             List<Map<String, Object>> relationships = new ArrayList<>();
             while (result.hasNext()) {
                 Map<String, Object> relationship = new HashMap<>(result.next().asMap());
                 // 添加关系名称
-                String relationshipName = (String) relationship.get("relationshipName");
-                relationship.put("relationshipName", relationshipName);
-
-
+                String name = (String) relationship.get("name");
+                relationship.put("name", name);
                 relationships.add(relationship);
             }
             return relationships;

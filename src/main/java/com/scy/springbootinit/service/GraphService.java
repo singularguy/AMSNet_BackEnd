@@ -17,16 +17,16 @@ public interface GraphService {
     Map<String, Object> findNode(String name);
 
     // 创建关系（根据节点名称和关系属性）
-    void createRelationship(String relationshipName, Map<String, Object> properties);
+    void createRelationship(String name, Map<String, Object> properties);
 
     // 删除关系（根据关系名称）
-    void deleteRelationship(String relationshipName);
+    void deleteRelationship(String name);
 
     // 更新关系（根据关系名称和新属性）
-    void updateRelationship(String relationshipName, Map<String, Object> newProperties);
+    void updateRelationship(String name, Map<String, Object> newProperties);
 
     // 查询关系
-    Map<String, Object> findRelationship(String relationshipName);
+    Map<String, Object> findRelationship(String name);
 
     // 获取全部节点
     List<Map<String, Object>> getAllNodes(boolean isIncludeProperties);

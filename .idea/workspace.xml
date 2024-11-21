@@ -150,6 +150,8 @@
       <workItem from="1731156213834" duration="11112000" />
       <workItem from="1731458243405" duration="795000" />
       <workItem from="1731977809590" duration="14656000" />
+      <workItem from="1732157122689" duration="1969000" />
+      <workItem from="1732159265222" duration="3356000" />
     </task>
     <task id="LOCAL-00001" summary="GIT INIT">
       <option name="closed" value="true" />
@@ -183,7 +185,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732094271478</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="为了不丢失昨晚的工作保存的">
+      <option name="closed" value="true" />
+      <created>1732154193898</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1732154193898</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,6 +225,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="GIT INIT" />
     <MESSAGE value="完成节点的CRUD基础" />
-    <option name="LAST_COMMIT_MESSAGE" value="完成节点的CRUD基础" />
+    <MESSAGE value="为了不丢失昨晚的工作保存的" />
+    <option name="LAST_COMMIT_MESSAGE" value="为了不丢失昨晚的工作保存的" />
   </component>
 </project>
